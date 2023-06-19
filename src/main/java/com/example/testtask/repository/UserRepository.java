@@ -15,9 +15,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("update User u set u.message = ?1 where u.username = ?2")
     void updateMessageByUsername(@NonNull String message, String username);
 
-    @Query("select u from User u where u.username = ?1")
-    Optional<User> findByUsername(String username);
-
     @Query("select (count(u) > 0) from User u where u.username = ?1")
     boolean existsByUsername(String username);
 

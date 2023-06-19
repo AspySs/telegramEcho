@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/message")
 public class MessageController {
     @Autowired
-    UserService service;
+    private final UserService service;
 
     @GetMapping("/last/{userId}")
     public ResponseEntity<String> getLastMessage(@PathVariable String userId) {

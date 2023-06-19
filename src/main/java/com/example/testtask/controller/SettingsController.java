@@ -4,6 +4,7 @@ package com.example.testtask.controller;
 import com.example.testtask.entity.Settings;
 import com.example.testtask.exception.SettingsNotFoundException;
 import com.example.testtask.service.SettingsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping("/delay")
 public class SettingsController {
     @Autowired
-    SettingsService service;
-
-    @Autowired
-    public SettingsController(SettingsService settingsService) {
-        this.service = settingsService;
-    }
+    private final SettingsService service;
 
     @PostMapping(value = "/update", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> updateDelay(@RequestBody Settings delay) {

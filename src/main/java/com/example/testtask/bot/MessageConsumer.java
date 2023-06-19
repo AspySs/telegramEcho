@@ -1,6 +1,6 @@
 package com.example.testtask.bot;
 
-import bd.Utils;
+import connection.DatabaseConnectionUtils;
 import com.example.testtask.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class MessageConsumer implements Runnable {
     Update update;
-    Utils bdUtils = new Utils();
+    DatabaseConnectionUtils bdUtils = new DatabaseConnectionUtils();
     Bot bot;
     Long delay;
 

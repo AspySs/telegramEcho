@@ -3,7 +3,7 @@ package com.example.testtask.bot;
 import com.example.testtask.entity.User;
 import com.example.testtask.service.SettingsService;
 import com.example.testtask.service.UserService;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,24 +15,27 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class Bot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String BOT_TOKEN;
     @Value("${bot.name}")
     private String BOT_NAME;
-    private Long delay;
 
     @Autowired
-    UserService usrService;
+    private final UserService usrService;
     @Autowired
-    SettingsService stngsService;
-
-    ArrayBlockingQueue<Runnable> tasks = new ArrayBlockingQueue<>(500);
-
-    private final ExecutorService executor = new ThreadPoolExecutor(8, 16, 10,
-            TimeUnit.SECONDS, tasks);
+    private final SettingsService stngsService;
+    private static final int BLOCKING_QUEUE_CAPACITY = 500;
+    private final ArrayBlockingQueue<Runnable> tasks = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);
+    private final ExecutorService executor = new ThreadPoolExecutor(
+            8,
+            16,
+            10,
+            TimeUnit.SECONDS,
+            tasks
+    );
 
     @Override
     public String getBotUsername() {
@@ -46,11 +49,16 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        delay = stngsService.findSettingsByName("delay").getDelay();
+        Long delay = stngsService.findSettingsByName("delay").getDelay();
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String username = update.getMessage().getFrom().getUserName();
+            String username = update
+                    .getMessage()
+                    .getFrom()
+                    .getUserName();
+
             String txt = update.getMessage().getText();
-            if (usrService.userIsExist(username)) {
+
+            if (usrService.userExists(username)) {
                 usrService.updateMessageByUsername(txt, username);
             } else {
                 usrService.add(new User(username, 1L, txt));
