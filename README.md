@@ -1,10 +1,10 @@
 # telegramEcho
 
-Бот и веб управление к нему написаны на Java, был использован Spring и telegrambots-spring-boot-starter
-В качестве БД был выбран PostgreSQL
-исполняемый файл -> testTask-0.0.1-SNAPSHOT.jar
-конфигурация для бота подставляется из файла -> application.yaml
-Backup базы данных в файле -> backupBD.sql
+- Бот и веб управление к нему написаны на Java, был использован Spring и telegrambots-spring-boot-starter
+- В качестве БД был выбран PostgreSQL
+- исполняемый файл -> testTask-0.0.1-SNAPSHOT.jar
+- конфигурация для бота подставляется из файла -> application.yaml
+- Backup базы данных в файле -> backupBD.sql
 
 Описание решения:
 
