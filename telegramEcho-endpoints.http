@@ -1,0 +1,15 @@
+###
+GET http://localhost:8081/message/last/1
+
+<> 2023-06-19T202201.200.txt
+
+
+###
+POST http://localhost:8081/delay/update
+Content-Type: application/json
+
+{
+  "delay": 10000
+}
+
+
