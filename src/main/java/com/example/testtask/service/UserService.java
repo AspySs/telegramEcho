@@ -5,7 +5,6 @@ import com.example.testtask.exception.UserNotFoundException;
 import com.example.testtask.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,48 +17,54 @@ public class UserService {
     private final UserRepository repository;
 
     @Autowired
-    public UserService(UserRepository repository) {this.repository = repository;}
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
 
-    public User findByName(String name){
-        if(!name.isEmpty()){
+    public User findByName(String name) {
+        if (!name.isEmpty()) {
             Optional<User> user = repository.findByUsername(name);
-            if(user.isPresent()){
+            if (user.isPresent()) {
                 return user.get();
-            }else{
+            } else {
                 throw new UserNotFoundException("User with this name not found");
             }
         }
         throw new IllegalArgumentException("Username is empty");
     }
 
-    public boolean userIsExist(String username){
-        if(username.isEmpty()){throw new IllegalArgumentException("Username is empty");}
+    public boolean userIsExist(String username) {
+        if (username.isEmpty()) {
+            throw new IllegalArgumentException("Username is empty");
+        }
         return repository.existsByUsername(username);
     }
 
 
     @Transactional
     @Modifying
-    public void updateCounter(Long counter, String username){
-        if(userIsExist(username)){
+    public void updateCounter(Long counter, String username) {
+        if (userIsExist(username)) {
             User usr = findByName(username);
-            repository.updateCounterByUsername(usr.getCounter()+1,username);
-        }else{
+            repository.updateCounterByUsername(usr.getCounter() + 1, username);
+        } else {
             throw new UserNotFoundException("User with this name not found");
         }
     }
 
-    public User findById(String id){
+    public User findById(String id) {
         Optional<User> usr = repository.findById(id);
-        if(usr.isEmpty()){throw new UserNotFoundException("User with this id not found");}
+        if (usr.isEmpty()) {
+            throw new UserNotFoundException("User with this id not found");
+        }
         return usr.get();
     }
 
 
     @Transactional
     @Modifying
-    public void add(User user){
-        if(!userIsExist(user.getUsername())){
+    public void add(User user) {
+        if (!userIsExist(user.getUsername())) {
             repository.save(user);
         }
     }
@@ -67,10 +72,10 @@ public class UserService {
 
     @Transactional
     @Modifying
-    public void updateMessageByUsername(@NonNull String message, String username){
-        if(userIsExist(username)){
+    public void updateMessageByUsername(@NonNull String message, String username) {
+        if (userIsExist(username)) {
             repository.updateMessageByUsername(message, username);
-        }else{
+        } else {
             throw new UserNotFoundException("User with this name not found");
         }
     }

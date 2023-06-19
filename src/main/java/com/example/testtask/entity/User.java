@@ -1,10 +1,15 @@
 package com.example.testtask.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "user_counter")
 public class User {
@@ -18,51 +23,15 @@ public class User {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String username;
 
-    public User() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @Column(name = "counter")
     @JdbcTypeCode(SqlTypes.INTEGER)
     private Long counter;
-
-
-    public Long getCounter() {
-        return counter;
-    }
-
-    public void setCounter(Long counter) {
-        this.counter = counter;
-    }
 
     @Column(name = "lastmsg")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String message;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User(String username, Long counter, String lastmsg){
+    public User(String username, Long counter, String lastmsg) {
         this.username = username;
         this.counter = counter;
         this.message = lastmsg;

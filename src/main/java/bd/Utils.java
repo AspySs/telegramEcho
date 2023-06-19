@@ -4,20 +4,19 @@ import com.example.testtask.entity.User;
 
 import java.sql.*;
 
+
 public class Utils {
-    private final static String url = "jdbc:postgresql://localhost:5432/users";
-    private final static String user = "postgres";
-    private final static String password = "02tidivu";
+    private static final String URL = "jdbc:postgresql://localhost:5432/users";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "02tidivu";
 
-    private static final String updateCount = "update user_counter set counter = ? where username = ?";
-    private static final String gtUsr = "select * from user_counter u where u.username = ?";
-
-
+    private static final String UPDATE_COUNT = "update user_counter set counter = ? where username = ?";
+    private static final String GT_USR = "select * from user_counter u where u.username = ?";
 
 
-    public void updateCounterByUsername(String username, Long counter){
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(updateCount);) {
+    public void updateCounterByUsername(String username, Long counter) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COUNT)) {
             preparedStatement.setLong(1, counter);
             preparedStatement.setString(2, username);
             preparedStatement.executeUpdate();
@@ -26,9 +25,9 @@ public class Utils {
         }
     }
 
-    public User getUser(String username){
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(gtUsr);) {
+    public User getUser(String username) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(GT_USR)) {
             preparedStatement.setString(1, username);
             ResultSet rs = preparedStatement.executeQuery();
             rs.next();

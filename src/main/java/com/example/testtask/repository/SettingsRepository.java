@@ -11,8 +11,10 @@ import java.util.Optional;
 public interface SettingsRepository extends JpaRepository<Settings, String> {
     @Query("select (count(s) > 0) from Settings s where s.name = ?1")
     boolean existsByName(String name);
+
     @Query("select s from Settings s where s.name = ?1")
     Optional<Settings> findByName(String name);
+
     @Transactional
     @Modifying
     @Query("update Settings s set s.delay = ?1 where s.name = ?2")
