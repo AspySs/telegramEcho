@@ -40,18 +40,6 @@ public class UserService {
         return repository.existsByUsername(username);
     }
 
-
-    @Transactional
-    @Modifying
-    public void updateCounter(Long counter, String username) {
-        if (userIsExist(username)) {
-            User usr = findByName(username);
-            repository.updateCounterByUsername(usr.getCounter() + 1, username);
-        } else {
-            throw new UserNotFoundException("User with this name not found");
-        }
-    }
-
     public User findById(String id) {
         Optional<User> usr = repository.findById(id);
         if (usr.isEmpty()) {
